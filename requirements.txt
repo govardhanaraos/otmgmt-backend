@@ -1,15 +1,10 @@
-jose
-passlib
-sqlalchemy
-pydantic
-psycopg2-binary
 fastapi
-uvicorn[standard]  # Uvicorn is the high-performance ASGI server
+uvicorn
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
 pydantic
-motor
+sqlalchemy
 gunicorn
 redis[async]
-orjson
-flask-cors
-pydantic[email]
-pycryptodome
+
