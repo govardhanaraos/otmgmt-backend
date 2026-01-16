@@ -62,12 +62,17 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
-
 # --- CORS CONFIGURATION ---
+origins = [
+    "http://localhost:53756",  # Add your current local origin here
+    "http://127.0.0.1:53756",
+    # Add your production frontend URL here once it is deployed
+]
+
 # This fixes the "blocked by CORS policy" error
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins (localhost, Render, etc.)
+    allow_origins=origins,  # Allows all origins (localhost, Render, etc.)
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
