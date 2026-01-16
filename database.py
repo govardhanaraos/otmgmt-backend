@@ -15,7 +15,6 @@ Base = declarative_base()
 
 def get_db():
     db = SessionLocal()
-    print(f"Database Connected: {db}")
     try:
         yield db
     finally:
