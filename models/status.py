@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Boolean, Integer
-from database import engine
+from database import Base
 
-class Status(engine):
+class Status(Base):
     __tablename__ = "statuses"
 
     id = Column(Integer, primary_key=True, index=True)

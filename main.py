@@ -64,7 +64,7 @@ app = FastAPI(
 )
 # --- CORS CONFIGURATION ---
 origins = [
-    "http://localhost:53756",  # Add your current local origin here
+    "http://localhost:58712",  # Add your current local origin here
     "http://127.0.0.1:53756",
     # Add your production frontend URL here once it is deployed
 ]
