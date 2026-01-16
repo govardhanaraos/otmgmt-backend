@@ -4,3 +4,13 @@ sqlalchemy
 pydantic
 uvicorn
 psycopg2-binary
+fastapi
+uvicorn[standard]  # Uvicorn is the high-performance ASGI server
+pydantic
+motor
+gunicorn
+redis[async]
+orjson
+flask-cors
+pydantic[email]
+pycryptodome
