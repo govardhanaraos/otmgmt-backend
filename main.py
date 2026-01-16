@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 from sqlalchemy import text
+
+# Import models FIRST
+from models import user, department, status, ot_record, ot_audit
+from models.user import User
+
 from database import Base, engine, SessionLocal
 from routers import auth, admin, ot, dashboard, audit
+from core.security import hash_password
 
-# Import models so SQLAlchemy sees them
-from models import user, department, status, ot_record, ot_audit
 
 app = FastAPI(title="OT Management API")
 
@@ -18,16 +22,27 @@ app.include_router(ot.router)
 app.include_router(dashboard.router)
 app.include_router(audit.router)
 
+
+
 @app.on_event("startup")
-def startup_db_check():
-    try:
-        db = SessionLocal()
-        db.execute(text("SELECT 1"))
-        print("✅ Database connection successful.")
-    except Exception as e:
-        print(f"❌ Database connection failed: {e}")
-    finally:
-        db.close()
+def create_default_admin():
+    db = SessionLocal()
+    admin = db.query(User).filter(User.username == "admin").first()
+
+    if not admin:
+        new_admin = User(
+            username="admin",
+            full_name="Administrator",
+            role="ADMIN",
+            hashed_password=hash_password("admin123")
+        )
+        db.add(new_admin)
+        db.commit()
+        print("Default admin user created: admin / admin123")
+    else:
+        print("Admin user already exists")
+
+    db.close()
 
 @app.get("/")
 def root():
