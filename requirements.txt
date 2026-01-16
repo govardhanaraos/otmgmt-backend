@@ -5,6 +5,7 @@ passlib[bcrypt]
 python-dotenv
 pydantic
 sqlalchemy
+psycopg2-binary
 gunicorn
 redis[async]
 
