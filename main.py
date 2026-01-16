@@ -72,7 +72,7 @@ origins = [
 # This fixes the "blocked by CORS policy" error
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Allows all origins (localhost, Render, etc.)
+    allow_origins=["*"],  # Allows all origins (localhost, Render, etc.)
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
