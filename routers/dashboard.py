@@ -12,8 +12,11 @@ router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
 @router.get("/")
 def dashboard(user=Depends(get_current_user), db: Session = Depends(get_db)):
     rows = (
-        db.query(Status.name, func.sum(OTRecord.amount))
-        .join(Status, Status.id == OTRecord.status_id)
+        db.query(
+            Status.name.label("status_name"),
+            func.sum(OTRecord.amount).label("total_amount")
+        )
+        .join(OTRecord, Status.id == OTRecord.status_id)
         .filter(OTRecord.user_id == user["user_id"])
         .group_by(Status.name)
         .all()
@@ -21,7 +24,10 @@ def dashboard(user=Depends(get_current_user), db: Session = Depends(get_db)):
 
     return {
         "by_status": [
-            {"status": name, "amount": float(amount or 0)}
-            for name, amount in rows
+            {
+                "status": row.status_name,
+                "amount": float(row.total_amount or 0)
+            }
+            for row in rows
         ]
     }
