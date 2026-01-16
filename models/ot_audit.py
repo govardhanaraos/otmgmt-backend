@@ -2,9 +2,9 @@ from sqlalchemy import Column, String, Text, TIMESTAMP, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 import uuid
 
-from database import engine
+from database import Base
 
-class OTAudit(engine):
+class OTAudit(Base):
     __tablename__ = "ot_audit_logs"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

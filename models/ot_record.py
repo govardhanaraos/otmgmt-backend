@@ -3,9 +3,9 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 import uuid
 
-from database import engine
+from database import Base
 
-class OTRecord(engine):
+class OTRecord(Base):
     __tablename__ = "ot_records"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

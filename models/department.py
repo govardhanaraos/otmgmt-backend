@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Boolean, Integer
-from database import engine
+from database import Base
 
-class Department(engine):
+class Department(Base):
     __tablename__ = "departments"
 
     id = Column(Integer, primary_key=True, index=True)
