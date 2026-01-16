@@ -1,0 +1,6 @@
+jose
+passlib
+sqlalchemy
+pydantic
+uvicorn
+psycopg2-binary
