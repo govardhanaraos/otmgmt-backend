@@ -10,3 +10,4 @@ gunicorn
 redis[async]
 bcrypt==4.0.1
 python-multipart
+supabase

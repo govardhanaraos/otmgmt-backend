@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Integer, Date, Numeric, Text, TIMESTAMP, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID,JSONB
 from sqlalchemy.orm import relationship
+
 import uuid
 
 from database import Base
@@ -20,6 +21,8 @@ class OTRecord(Base):
     invoice_number = Column(String(100))
     created_at = Column(TIMESTAMP)
     updated_at = Column(TIMESTAMP)
+    document_path = Column(JSONB, nullable=True)
+    deleted = Column(String(1), default='N', nullable=False)
 
     user = relationship("User")
     status = relationship("Status")

@@ -1,1 +1,3 @@
-from . import auth, admin, ot, dashboard, audit
+from . import auth, admin, ot, dashboard, audit, departement, statuses
+
+

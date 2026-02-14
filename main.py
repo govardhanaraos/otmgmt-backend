@@ -8,9 +8,10 @@ from models import user, department, status, ot_record, ot_audit
 from models.user import User
 
 from database import Base, engine, SessionLocal
-from routers import auth, admin, ot, dashboard, audit
+from routers import auth, admin, ot, dashboard, audit, departement, statuses
 from core.security import hash_password
 from fastapi.middleware.cors import CORSMiddleware
+
 
 
 @asynccontextmanager
@@ -64,15 +65,15 @@ app = FastAPI(
 )
 # --- CORS CONFIGURATION ---
 origins = [
-    "http://localhost:58712",  # Add your current local origin here
-    "http://127.0.0.1:53756",
-    # Add your production frontend URL here once it is deployed
+    "http://localhost:8080", # The origin from your browser error
+    "http://127.0.0.1:8000",
+    # Add your production URL here later
 ]
 
 # This fixes the "blocked by CORS policy" error
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins (localhost, Render, etc.)
+    allow_origins=origins,  # Allows all origins (localhost, Render, etc.)
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
@@ -84,6 +85,8 @@ app.include_router(admin.router)
 app.include_router(ot.router)
 app.include_router(dashboard.router)
 app.include_router(audit.router)
+app.include_router(departement.router)
+app.include_router(statuses.router)
 
 
 @app.get("/")
