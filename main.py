@@ -65,6 +65,7 @@ app = FastAPI(
 )
 # --- CORS CONFIGURATION ---
 origins = [
+    "https://otmgmt.netlify.app",
     "http://localhost:8080", # The origin from your browser error
     "http://127.0.0.1:8000",
     # Add your production URL here later
