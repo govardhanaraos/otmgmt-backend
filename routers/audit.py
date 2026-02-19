@@ -71,7 +71,7 @@ def stream_file_from_supabase(reference_number: str, file_name: str):
 
 @router.get("/{reference_number}/history")
 def get_ot_history(reference_number: str, db: Session = Depends(get_db)):
-    # Join with Status and Department to get human-readable names
+
     history = (
         db.query(
             OTDetail,
@@ -85,14 +85,37 @@ def get_ot_history(reference_number: str, db: Session = Depends(get_db)):
         .all()
     )
 
-    return [
-        {
-            "ot_name": item.OTDetail.ot_name,
-            "status": item.status_name or "Unknown",
-            "department_name": item.dept_name or "N/A",
-            "updated_at": item.OTDetail.changed_at.strftime("%d/%m/%Y %H:%M:%S") if item.OTDetail.changed_at else None,
-            "ot_date": item.OTDetail.ot_date.strftime("%d/%m/%Y") if item.OTDetail.ot_date else None,
-            "attachments": item.OTDetail.document_path if isinstance(item.OTDetail.document_path, list) else [],
-        }
-        for item in history
-    ]
+    if not history:
+        return []
+
+    result = []
+    for record, status_name, dept_name in history:
+        result.append({
+            "id": str(record.id),
+            "reference_number": record.reference_number,
+            "ot_name": record.ot_name,
+            "status_id": record.status_id,
+            "status": status_name or "Unknown",
+            "amount": float(record.amount) if record.amount else None,
+            "comments": record.comments,
+            "invoice_number": record.invoice_number,
+            "ot_date": record.ot_date.strftime("%d/%m/%Y %H:%M:%S") if record.ot_date else None,
+            "department_id": record.department_id,
+            "department_name": dept_name or "N/A",
+            "captured_at": record.changed_at.strftime("%d/%m/%Y %H:%M:%S") if record.changed_at else None,
+
+            # NEW FIELDS
+            "total_hours": record.total_hours,
+            "jira_id": record.jira_id,
+            "hr_ref_number": record.hr_ref_number,
+            "project_manager": record.project_manager,
+            "activity_type": record.activity_type,
+            "rfc_number": record.rfc_number,
+            "cost_center": record.cost_center,
+            "dates_worked": record.dates_worked,
+            "document_path": record.document_path or [],
+            "document_names": record.document_names,
+        })
+
+    return result
+

@@ -23,6 +23,15 @@ class OTRecord(Base):
     updated_at = Column(TIMESTAMP)
     document_path = Column(JSONB, nullable=True)
     deleted = Column(String(1), default='N', nullable=False)
+    total_hours = Column(String(20))
+    jira_id = Column(String(50))
+    hr_ref_number = Column(String(50))
+    project_manager = Column(String(100))
+    activity_type = Column(String(50))  # 'RFC Number' or 'Non-project activity'
+    rfc_number = Column(String(50), nullable=True)
+    cost_center = Column(String(50))
+    dates_worked = Column(JSONB, nullable=True)
+    document_names = Column(JSONB, nullable=True)
 
     user = relationship("User")
     status = relationship("Status")
